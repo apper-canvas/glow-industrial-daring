@@ -1,0 +1,162 @@
+[
+  {
+    "Id": 1,
+    "name": "Precision CNC Machining",
+    "description": "High-precision CNC machining services for complex parts and prototypes with tolerances up to ±0.0001 inches.",
+    "icon": "Wrench",
+    "category": "Machining",
+    "capabilities": [
+      "5-axis simultaneous machining",
+      "Multi-material processing",
+      "Complex geometries",
+      "High-volume production",
+      "Prototype development"
+    ],
+    "equipment": [
+      "Haas VF-4 CNC Mills",
+      "Mazak Integrex Multi-tasking",
+      "DMG Mori 5-axis Centers"
+    ],
+    "specifications": "Tolerances: ±0.0001\", Max size: 48\" x 24\" x 20\", Materials: Aluminum, Steel, Titanium, Plastics"
+  },
+  {
+    "Id": 2,
+    "name": "Custom Assembly Services",
+    "description": "Complete assembly solutions from sub-assemblies to finished products with comprehensive testing and quality control.",
+    "icon": "Layers",
+    "category": "Assembly",
+    "capabilities": [
+      "Mechanical assembly",
+      "Electro-mechanical integration",
+      "Testing and validation",
+      "Packaging and shipping",
+      "Supply chain management"
+    ],
+    "equipment": [
+      "Automated assembly lines",
+      "Torque stations",
+      "Test fixtures"
+    ],
+    "specifications": "Assembly volumes: 1-10,000 units, Integration testing, Quality documentation"
+  },
+  {
+    "Id": 3,
+    "name": "Quality Control & Inspection",
+    "description": "Comprehensive quality assurance with advanced inspection equipment and certified measurement processes.",
+    "icon": "Search",
+    "category": "Quality",
+    "capabilities": [
+      "CMM dimensional inspection",
+      "Surface finish analysis",
+      "Material certification",
+      "First article inspection",
+      "Statistical process control"
+    ],
+    "equipment": [
+      "Zeiss CMM machines",
+      "Surface roughness testers",
+      "Optical comparators"
+    ],
+    "specifications": "ISO 9001:2015, AS9100D, ITAR registered, Full traceability"
+  },
+  {
+    "Id": 4,
+    "name": "Prototype Development",
+    "description": "Rapid prototyping services for product development, testing, and validation with quick turnaround times.",
+    "icon": "Lightbulb",
+    "category": "Design",
+    "capabilities": [
+      "Rapid prototyping",
+      "Design optimization",
+      "Material selection",
+      "Testing support",
+      "Documentation"
+    ],
+    "equipment": [
+      "3D printing systems",
+      "High-speed machining",
+      "Manual machining"
+    ],
+    "specifications": "1-5 day turnaround, Multiple materials, Design feedback included"
+  },
+  {
+    "Id": 5,
+    "name": "Production Machining",
+    "description": "High-volume production machining with consistent quality, automated processes, and lean manufacturing principles.",
+    "icon": "Factory",
+    "category": "Machining",
+    "capabilities": [
+      "High-volume production",
+      "Automated processes",
+      "Lean manufacturing",
+      "Just-in-time delivery",
+      "Cost optimization"
+    ],
+    "equipment": [
+      "Automated CNC cells",
+      "Robotic loading systems",
+      "Pallet systems"
+    ],
+    "specifications": "Volumes: 100-100,000+ parts, Consistent quality, Competitive pricing"
+  },
+  {
+    "Id": 6,
+    "name": "Surface Treatment & Finishing",
+    "description": "Complete finishing services including anodizing, plating, painting, and specialized coatings for enhanced performance.",
+    "icon": "Paintbrush",
+    "category": "Finishing",
+    "capabilities": [
+      "Anodizing (Type II, III)",
+      "Electroplating",
+      "Powder coating",
+      "Passivation",
+      "Custom finishes"
+    ],
+    "equipment": [
+      "Anodizing tanks",
+      "Plating lines",
+      "Powder coating booth"
+    ],
+    "specifications": "Military specs, Commercial standards, Custom colors available"
+  },
+  {
+    "Id": 7,
+    "name": "Material Procurement",
+    "description": "Complete material sourcing and procurement services with certified suppliers and full material traceability.",
+    "icon": "Package",
+    "category": "Supply Chain",
+    "capabilities": [
+      "Material sourcing",
+      "Supplier qualification",
+      "Inventory management",
+      "Cost optimization",
+      "Quality assurance"
+    ],
+    "equipment": [
+      "Automated inventory systems",
+      "Material testing equipment",
+      "Climate-controlled storage"
+    ],
+    "specifications": "Certified suppliers, Full traceability, Competitive pricing"
+  },
+  {
+    "Id": 8,
+    "name": "Engineering Support",
+    "description": "Design for manufacturability consulting, reverse engineering, and technical support throughout the product lifecycle.",
+    "icon": "Users",
+    "category": "Design",
+    "capabilities": [
+      "Design for manufacturing",
+      "Reverse engineering",
+      "Process optimization",
+      "Technical consulting",
+      "Documentation"
+    ],
+    "equipment": [
+      "CAD/CAM systems",
+      "3D scanning equipment",
+      "Analysis software"
+    ],
+    "specifications": "Experienced engineers, Latest software tools, DFM optimization"
+  }
+]
