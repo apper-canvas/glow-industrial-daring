@@ -7,9 +7,9 @@
       "travels": "50\" x 20\" x 25\"",
       "spindle": "8,100 RPM",
       "toolChanger": "20 position",
-      "accuracy": "±0.0002\""
+"accuracy": "±0.0002\""
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=cnc1"],
     "capabilities": [
       "High-precision milling",
       "Complex contours",
@@ -25,9 +25,9 @@
       "maxDiameter": "15.75\"",
       "maxLength": "31.5\"",
       "spindle": "6,000 RPM",
-      "subSpindle": "6,000 RPM"
+"subSpindle": "6,000 RPM"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=cnc2"],
     "capabilities": [
       "Turn-mill operations",
       "Complete part processing",
@@ -43,9 +43,9 @@
       "travels": "20\" x 20\" x 20\"",
       "spindle": "20,000 RPM",
       "axes": "5-axis simultaneous",
-      "toolChanger": "60 position"
+"toolChanger": "60 position"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=cnc3"],
     "capabilities": [
       "5-axis simultaneous machining",
       "Complex geometries",
@@ -61,9 +61,9 @@
       "measuringRange": "24\" x 20\" x 16\"",
       "accuracy": "±0.5 + L/500 μm",
       "probeSystem": "Renishaw PH20",
-      "software": "Calypso"
+"software": "Calypso"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=inspect1"],
     "capabilities": [
       "3D coordinate measurement",
       "Complex part inspection",
@@ -79,9 +79,9 @@
       "magnification": "20x to 6000x",
       "resolution": "4K CMOS",
       "measurement": "2D/3D capability",
-      "lighting": "Multi-angle LED"
+"lighting": "Multi-angle LED"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=inspect2"],
     "capabilities": [
       "Digital microscopy",
       "Surface analysis",
@@ -97,9 +97,9 @@
       "payload": "22 lbs",
       "reach": "43.3\"",
       "repeatability": "±0.002\"",
-      "axes": "6-axis"
+"axes": "6-axis"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=robot1"],
     "capabilities": [
       "Automated assembly",
       "Material handling",
@@ -115,9 +115,9 @@
       "boothSize": "8' x 8' x 12'",
       "airflow": "100 FPM",
       "filtration": "Cartridge filters",
-      "cureOven": "400°F max"
+"cureOven": "400°F max"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=finish1"],
     "capabilities": [
       "Powder coating application",
       "Color variety",
@@ -133,9 +133,9 @@
       "tankSize": "48\" x 24\" x 36\"",
       "capacity": "Type II & III",
       "temperature": "Controlled ±2°F",
-      "agitation": "Air/mechanical"
+"agitation": "Air/mechanical"
     },
-    "images": ["/api/placeholder/400/300"],
+    "images": ["https://picsum.photos/400/300?random=finish2"],
     "capabilities": [
       "Aluminum anodizing",
       "Color anodizing",
