@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useAuth } from "@/layouts/Root";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
+import Login from "@/components/pages/Login";
 
 const AuthButtons = ({ mobile = false, onClose = () => {} }) => {
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -43,6 +44,9 @@ const AuthButtons = ({ mobile = false, onClose = () => {} }) => {
     </div>
   );
 };
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const navigation = [

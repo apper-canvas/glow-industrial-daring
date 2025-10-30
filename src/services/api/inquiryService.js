@@ -173,4 +173,3 @@ class InquiryService {
 }
 
 export default new InquiryService();
-export default new InquiryService();
