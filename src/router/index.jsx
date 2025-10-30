@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import Root from "@/layouts/Root";
 import Layout from "@/components/organisms/Layout";
+import { getRouteConfig } from "@/router/route.utils";
 
 const Home = lazy(() => import("@/components/pages/Home"));
 const Services = lazy(() => import("@/components/pages/Services"));
@@ -8,7 +10,12 @@ const About = lazy(() => import("@/components/pages/About"));
 const Equipment = lazy(() => import("@/components/pages/Equipment"));
 const Contact = lazy(() => import("@/components/pages/Contact"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
-
+const Login = lazy(() => import("@/components/pages/Login"));
+const Signup = lazy(() => import("@/components/pages/Signup"));
+const Callback = lazy(() => import("@/components/pages/Callback"));
+const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"));
+const ResetPassword = lazy(() => import("@/components/pages/ResetPassword"));
+const PromptPassword = lazy(() => import("@/components/pages/PromptPassword"));
 const suspenseFallback = (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
     <div className="text-center space-y-4">
@@ -20,63 +27,107 @@ const suspenseFallback = (
   </div>
 );
 
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={suspenseFallback}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
 const mainRoutes = [
-  {
+  createRoute({
     path: "",
     index: true,
-    element: (
-      <Suspense fallback={suspenseFallback}>
-        <Home />
-      </Suspense>
-    )
-  },
-  {
+    element: <Home />
+  }),
+  createRoute({
     path: "services",
-    element: (
-      <Suspense fallback={suspenseFallback}>
-        <Services />
-      </Suspense>
-    )
-  },
-  {
+    element: <Services />
+  }),
+  createRoute({
     path: "about",
-    element: (
-      <Suspense fallback={suspenseFallback}>
-        <About />
-      </Suspense>
-    )
-  },
-  {
+    element: <About />
+  }),
+  createRoute({
     path: "equipment",
-    element: (
-      <Suspense fallback={suspenseFallback}>
-        <Equipment />
-      </Suspense>
-    )
-  },
-  {
+    element: <Equipment />
+  }),
+  createRoute({
     path: "contact",
-    element: (
-      <Suspense fallback={suspenseFallback}>
-        <Contact />
-      </Suspense>
-    )
-  },
-  {
+    element: <Contact />
+  }),
+  createRoute({
     path: "*",
-    element: (
-      <Suspense fallback={suspenseFallback}>
-        <NotFound />
-      </Suspense>
-    )
-  }
+    element: <NotFound />
+  })
+];
+
+const authRoutes = [
+  createRoute({
+    path: "login",
+    element: <Login />
+  }),
+  createRoute({
+    path: "signup",
+    element: <Signup />
+  }),
+  createRoute({
+    path: "callback",
+    element: <Callback />
+  }),
+  createRoute({
+    path: "error",
+    element: <ErrorPage />
+  }),
+  createRoute({
+    path: "reset-password/:appId/:fields",
+    element: <ResetPassword />
+  }),
+  createRoute({
+    path: "prompt-password/:appId/:emailAddress/:provider",
+    element: <PromptPassword />
+  })
 ];
 
 const routes = [
   {
     path: "/",
-    element: <Layout />,
-    children: mainRoutes
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Layout />,
+        children: mainRoutes
+      },
+      ...authRoutes
+    ]
   }
 ];
 

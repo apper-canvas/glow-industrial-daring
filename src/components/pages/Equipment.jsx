@@ -32,10 +32,9 @@ const Equipment = () => {
     loadEquipment();
   }, []);
 
-  const filteredEquipment = selectedCategory === "All" 
+const filteredEquipment = selectedCategory === "All" 
     ? equipment 
-    : equipment.filter(item => item.category === selectedCategory);
-
+    : equipment.filter(item => item.category_c === selectedCategory);
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadEquipment} />;
 

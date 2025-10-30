@@ -32,9 +32,9 @@ const Services = () => {
     loadServices();
   }, []);
 
-  const filteredServices = selectedCategory === "All" 
+const filteredServices = selectedCategory === "All" 
     ? services 
-    : services.filter(service => service.category === selectedCategory);
+    : services.filter(service => service.category_c === selectedCategory);
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadServices} />;

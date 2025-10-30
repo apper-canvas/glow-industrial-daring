@@ -59,10 +59,14 @@ const ContactForm = ({ className = "" }) => {
 
     setIsSubmitting(true);
     try {
-      await inquiryService.create({
-        ...formData,
-        timestamp: new Date().toISOString(),
-        attachments: []
+await inquiryService.create({
+        company_name_c: formData.companyName,
+        contact_name_c: formData.contactName,
+        email_c: formData.email,
+        phone_c: formData.phone,
+        service_type_c: formData.serviceType,
+        message_c: formData.message,
+        timestamp_c: new Date().toISOString()
       });
       
       toast.success("Inquiry submitted successfully! We'll contact you soon.");

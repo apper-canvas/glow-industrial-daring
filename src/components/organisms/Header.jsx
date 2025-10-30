@@ -1,10 +1,48 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth } from "@/layouts/Root";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const AuthButtons = ({ mobile = false, onClose = () => {} }) => {
+  const { isAuthenticated } = useSelector((state) => state.user);
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    onClose();
+  };
+
+  if (isAuthenticated) {
+    return (
+      <Button 
+        onClick={handleLogout}
+        size="sm" 
+        variant="outline"
+        className={`flex items-center ${mobile ? 'w-full justify-center' : ''}`}
+      >
+        <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+        Logout
+      </Button>
+    );
+  }
+
+  return (
+    <div className={`flex ${mobile ? 'flex-col w-full' : ''} gap-2`}>
+      <Link to="/login" onClick={onClose}>
+        <Button size="sm" variant="outline" className={mobile ? 'w-full' : ''}>
+          Login
+        </Button>
+      </Link>
+      <Link to="/signup" onClick={onClose}>
+        <Button size="sm" className={mobile ? 'w-full' : ''}>
+          Sign Up
+        </Button>
+      </Link>
+    </div>
+  );
+};
   const location = useLocation();
 
   const navigation = [
@@ -48,15 +86,15 @@ const Header = () => {
               </Link>
             ))}
           </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center">
+{/* CTA Button and Auth */}
+          <div className="hidden md:flex items-center gap-4">
             <Link to="/contact">
               <Button size="sm" className="flex items-center">
                 <ApperIcon name="Phone" className="w-4 h-4 mr-2" />
                 Get Quote
               </Button>
             </Link>
+            <AuthButtons />
           </div>
 
           {/* Mobile menu button */}
@@ -89,13 +127,14 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <div className="px-3 pt-4">
+<div className="px-3 pt-4 space-y-3">
               <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
                 <Button size="sm" className="w-full flex items-center justify-center">
                   <ApperIcon name="Phone" className="w-4 h-4 mr-2" />
                   Get Quote
                 </Button>
               </Link>
+              <AuthButtons mobile onClose={() => setIsMenuOpen(false)} />
             </div>
           </div>
         </div>

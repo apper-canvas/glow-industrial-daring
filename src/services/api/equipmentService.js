@@ -1,56 +1,158 @@
-import equipmentData from "@/services/mockData/equipment.json";
+import { getApperClient } from "@/services/apperClient";
 
 class EquipmentService {
   constructor() {
-    this.equipment = [...equipmentData];
+    this.tableName = "equipment_c";
   }
 
   async getAll() {
-    await this.delay(300);
-    return [...this.equipment];
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.fetchRecords(this.tableName, {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "name_c" } },
+          { field: { Name: "category_c" } },
+          { field: { Name: "specifications_c" } }
+        ],
+        pagingInfo: { limit: 100, offset: 0 }
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching equipment:", error?.response?.data?.message || error);
+      throw error;
+    }
   }
 
   async getById(id) {
-    await this.delay(200);
-    const item = this.equipment.find(e => e.Id === parseInt(id));
-    if (!item) {
-      throw new Error("Equipment not found");
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.getRecordById(this.tableName, id, {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "name_c" } },
+          { field: { Name: "category_c" } },
+          { field: { Name: "specifications_c" } }
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching equipment ${id}:`, error?.response?.data?.message || error);
+      throw error;
     }
-    return { ...item };
   }
 
   async create(equipmentData) {
-    await this.delay(400);
-    const newEquipment = {
-      ...equipmentData,
-      Id: Math.max(...this.equipment.map(e => e.Id), 0) + 1
-    };
-    this.equipment.push(newEquipment);
-    return { ...newEquipment };
+    try {
+      const apperClient = getApperClient();
+      const payload = {
+        records: [{
+          Name: equipmentData.name_c || equipmentData.Name,
+          name_c: equipmentData.name_c,
+          category_c: equipmentData.category_c,
+          specifications_c: equipmentData.specifications_c
+        }]
+      };
+
+      const response = await apperClient.createRecord(this.tableName, payload);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} equipment: ${JSON.stringify(failed)}`);
+        }
+
+        return successful.length > 0 ? successful[0].data : null;
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error creating equipment:", error?.response?.data?.message || error);
+      throw error;
+    }
   }
 
   async update(id, equipmentData) {
-    await this.delay(350);
-    const index = this.equipment.findIndex(e => e.Id === parseInt(id));
-    if (index === -1) {
-      throw new Error("Equipment not found");
+    try {
+      const apperClient = getApperClient();
+      const payload = {
+        records: [{
+          Id: parseInt(id),
+          name_c: equipmentData.name_c,
+          category_c: equipmentData.category_c,
+          specifications_c: equipmentData.specifications_c
+        }]
+      };
+
+      const response = await apperClient.updateRecord(this.tableName, payload);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+
+        if (failed.length > 0) {
+          console.error(`Failed to update ${failed.length} equipment: ${JSON.stringify(failed)}`);
+        }
+
+        return successful.length > 0 ? successful[0].data : null;
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error updating equipment:", error?.response?.data?.message || error);
+      throw error;
     }
-    this.equipment[index] = { ...this.equipment[index], ...equipmentData };
-    return { ...this.equipment[index] };
   }
 
   async delete(id) {
-    await this.delay(250);
-    const index = this.equipment.findIndex(e => e.Id === parseInt(id));
-    if (index === -1) {
-      throw new Error("Equipment not found");
-    }
-    this.equipment.splice(index, 1);
-    return true;
-  }
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.deleteRecord(this.tableName, {
+        RecordIds: [parseInt(id)]
+      });
 
-  delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const failed = response.results.filter(r => !r.success);
+        if (failed.length > 0) {
+          console.error(`Failed to delete ${failed.length} equipment: ${JSON.stringify(failed)}`);
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error deleting equipment:", error?.response?.data?.message || error);
+      throw error;
+    }
   }
 }
 

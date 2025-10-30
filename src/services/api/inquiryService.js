@@ -1,58 +1,176 @@
-import inquiryData from "@/services/mockData/inquiries.json";
+import { getApperClient } from "@/services/apperClient";
 
 class InquiryService {
   constructor() {
-    this.inquiries = [...inquiryData];
+    this.tableName = "inquiry_c";
   }
 
   async getAll() {
-    await this.delay(300);
-    return [...this.inquiries];
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.fetchRecords(this.tableName, {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "company_name_c" } },
+          { field: { Name: "contact_name_c" } },
+          { field: { Name: "email_c" } },
+          { field: { Name: "phone_c" } },
+          { field: { Name: "service_type_c" } },
+          { field: { Name: "message_c" } },
+          { field: { Name: "timestamp_c" } }
+        ],
+        pagingInfo: { limit: 100, offset: 0 }
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching inquiries:", error?.response?.data?.message || error);
+      throw error;
+    }
   }
 
   async getById(id) {
-    await this.delay(200);
-    const inquiry = this.inquiries.find(i => i.Id === parseInt(id));
-    if (!inquiry) {
-      throw new Error("Inquiry not found");
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.getRecordById(this.tableName, id, {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "company_name_c" } },
+          { field: { Name: "contact_name_c" } },
+          { field: { Name: "email_c" } },
+          { field: { Name: "phone_c" } },
+          { field: { Name: "service_type_c" } },
+          { field: { Name: "message_c" } },
+          { field: { Name: "timestamp_c" } }
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching inquiry ${id}:`, error?.response?.data?.message || error);
+      throw error;
     }
-    return { ...inquiry };
   }
 
   async create(inquiryData) {
-    await this.delay(500);
-    const newInquiry = {
-      ...inquiryData,
-      Id: Math.max(...this.inquiries.map(i => i.Id), 0) + 1,
-      timestamp: new Date().toISOString()
-    };
-    this.inquiries.push(newInquiry);
-    return { ...newInquiry };
+    try {
+      const apperClient = getApperClient();
+      const payload = {
+        records: [{
+          Name: inquiryData.contact_name_c || inquiryData.contactName,
+          company_name_c: inquiryData.company_name_c || inquiryData.companyName,
+          contact_name_c: inquiryData.contact_name_c || inquiryData.contactName,
+          email_c: inquiryData.email_c || inquiryData.email,
+          phone_c: inquiryData.phone_c || inquiryData.phone,
+          service_type_c: inquiryData.service_type_c || inquiryData.serviceType,
+          message_c: inquiryData.message_c || inquiryData.message,
+          timestamp_c: new Date().toISOString()
+        }]
+      };
+
+      const response = await apperClient.createRecord(this.tableName, payload);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} inquiries: ${JSON.stringify(failed)}`);
+        }
+
+        return successful.length > 0 ? successful[0].data : null;
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error creating inquiry:", error?.response?.data?.message || error);
+      throw error;
+    }
   }
 
   async update(id, inquiryData) {
-    await this.delay(350);
-    const index = this.inquiries.findIndex(i => i.Id === parseInt(id));
-    if (index === -1) {
-      throw new Error("Inquiry not found");
+    try {
+      const apperClient = getApperClient();
+      const payload = {
+        records: [{
+          Id: parseInt(id),
+          company_name_c: inquiryData.company_name_c,
+          contact_name_c: inquiryData.contact_name_c,
+          email_c: inquiryData.email_c,
+          phone_c: inquiryData.phone_c,
+          service_type_c: inquiryData.service_type_c,
+          message_c: inquiryData.message_c,
+          timestamp_c: inquiryData.timestamp_c
+        }]
+      };
+
+      const response = await apperClient.updateRecord(this.tableName, payload);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+
+        if (failed.length > 0) {
+          console.error(`Failed to update ${failed.length} inquiries: ${JSON.stringify(failed)}`);
+        }
+
+        return successful.length > 0 ? successful[0].data : null;
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error updating inquiry:", error?.response?.data?.message || error);
+      throw error;
     }
-    this.inquiries[index] = { ...this.inquiries[index], ...inquiryData };
-    return { ...this.inquiries[index] };
   }
 
   async delete(id) {
-    await this.delay(250);
-    const index = this.inquiries.findIndex(i => i.Id === parseInt(id));
-    if (index === -1) {
-      throw new Error("Inquiry not found");
-    }
-    this.inquiries.splice(index, 1);
-    return true;
-  }
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.deleteRecord(this.tableName, {
+        RecordIds: [parseInt(id)]
+      });
 
-  delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const failed = response.results.filter(r => !r.success);
+        if (failed.length > 0) {
+          console.error(`Failed to delete ${failed.length} inquiries: ${JSON.stringify(failed)}`);
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error deleting inquiry:", error?.response?.data?.message || error);
+      throw error;
+    }
   }
 }
 
+export default new InquiryService();
 export default new InquiryService();
