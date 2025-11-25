@@ -11,7 +11,7 @@ const EquipmentCard = ({ equipment, className = "" }) => {
     }
   };
 
-  const specifications = parseSpecifications(equipment.specifications_c);
+const specifications = parseSpecifications(equipment.specifications_c);
 
   return (
     <Card hover className={`overflow-hidden ${className}`}>
@@ -27,7 +27,16 @@ const EquipmentCard = ({ equipment, className = "" }) => {
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-2">{equipment.name_c}</h3>
+        {equipment.another_name_c && (
+          <p className="text-sm text-gray-600 mb-3 italic">Also known as: {equipment.another_name_c}</p>
+        )}
         <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+          {equipment.model_c && (
+            <div className="flex flex-col col-span-2 mb-2 p-2 bg-gray-50 rounded-md">
+              <span className="text-gray-500 text-xs uppercase tracking-wide">Model</span>
+              <span className="font-semibold text-gray-900 text-base">{equipment.model_c}</span>
+            </div>
+          )}
           {Object.entries(specifications).slice(0, 4).map(([key, value]) => (
             <div key={key} className="flex flex-col">
               <span className="text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>

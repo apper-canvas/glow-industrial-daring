@@ -10,8 +10,10 @@ class EquipmentService {
       const apperClient = getApperClient();
       const response = await apperClient.fetchRecords(this.tableName, {
         fields: [
-          { field: { Name: "Name" } },
+{ field: { Name: "Name" } },
           { field: { Name: "name_c" } },
+          { field: { Name: "another_name_c" } },
+          { field: { Name: "model_c" } },
           { field: { Name: "category_c" } },
           { field: { Name: "specifications_c" } }
         ],
@@ -35,8 +37,10 @@ class EquipmentService {
       const apperClient = getApperClient();
       const response = await apperClient.getRecordById(this.tableName, id, {
         fields: [
-          { field: { Name: "Name" } },
+{ field: { Name: "Name" } },
           { field: { Name: "name_c" } },
+          { field: { Name: "another_name_c" } },
+          { field: { Name: "model_c" } },
           { field: { Name: "category_c" } },
           { field: { Name: "specifications_c" } }
         ]
@@ -61,6 +65,8 @@ class EquipmentService {
         records: [{
           Name: equipmentData.name_c || equipmentData.Name,
           name_c: equipmentData.name_c,
+another_name_c: equipmentData.another_name_c,
+          model_c: equipmentData.model_c,
           category_c: equipmentData.category_c,
           specifications_c: equipmentData.specifications_c
         }]
@@ -97,7 +103,9 @@ class EquipmentService {
       const payload = {
         records: [{
           Id: parseInt(id),
-          name_c: equipmentData.name_c,
+name_c: equipmentData.name_c,
+          another_name_c: equipmentData.another_name_c,
+          model_c: equipmentData.model_c,
           category_c: equipmentData.category_c,
           specifications_c: equipmentData.specifications_c
         }]
